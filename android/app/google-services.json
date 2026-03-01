@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "915983334116",
+    "project_id": "lifelog-7aff9",
+    "storage_bucket": "lifelog-7aff9.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:915983334116:android:28d411ce456409a97f0af1",
+        "android_client_info": {
+          "package_name": "com.example.life_log"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpeQHUTBtTp63TQdOQw33_WX3JVp9ZvHc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

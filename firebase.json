@@ -1,0 +1,31 @@
+{
+	"flutter": {
+		"platforms": {
+			"android": {
+				"default": {
+					"projectId": "lifelog-7aff9",
+					"appId": "1:915983334116:android:28d411ce456409a97f0af1",
+					"fileOutput": "android/app/google-services.json"
+				}
+			},
+			"dart": {
+				"lib/firebase_options.dart": {
+					"projectId": "lifelog-7aff9",
+					"configurations": {
+						"android": "1:915983334116:android:28d411ce456409a97f0af1",
+						"ios": "1:915983334116:ios:68a24ecc69b826797f0af1",
+						"macos": "1:915983334116:ios:68a24ecc69b826797f0af1",
+						"web": "1:915983334116:web:c1499bf96ff06c7d7f0af1",
+						"windows": "1:915983334116:web:9985a6ea5be911517f0af1"
+					}
+				}
+			}
+		}
+	},
+	"firestore": {
+		"rules": "firestore.rules"
+	},
+	"storage": {
+		"rules": "storage.rules"
+	}
+}

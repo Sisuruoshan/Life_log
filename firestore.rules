@@ -1,0 +1,58 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function hasUserIdField() {
+      return request.resource.data.keys().hasAll(['userId']);
+    }
+
+    // User profile document
+    match /users/{userId} {
+      allow read, update, delete: if isOwner(userId);
+      allow create: if isOwner(userId) && request.resource.data.id == userId;
+    }
+
+    // User-scoped collections
+    match /tasks/{docId} {
+      allow read, delete: if isOwner(resource.data.userId);
+      allow create: if hasUserIdField() && isOwner(request.resource.data.userId);
+      allow update: if isOwner(resource.data.userId) && isOwner(request.resource.data.userId);
+    }
+
+    match /books/{docId} {
+      allow read, delete: if isOwner(resource.data.userId);
+      allow create: if hasUserIdField() && isOwner(request.resource.data.userId);
+      allow update: if isOwner(resource.data.userId) && isOwner(request.resource.data.userId);
+    }
+
+    match /movies/{docId} {
+      allow read, delete: if isOwner(resource.data.userId);
+      allow create: if hasUserIdField() && isOwner(request.resource.data.userId);
+      allow update: if isOwner(resource.data.userId) && isOwner(request.resource.data.userId);
+    }
+
+    match /goals/{docId} {
+      allow read, delete: if isOwner(resource.data.userId);
+      allow create: if hasUserIdField() && isOwner(request.resource.data.userId);
+      allow update: if isOwner(resource.data.userId) && isOwner(request.resource.data.userId);
+    }
+
+    match /achievements/{docId} {
+      allow read, delete: if isOwner(resource.data.userId);
+      allow create: if hasUserIdField() && isOwner(request.resource.data.userId);
+      allow update: if isOwner(resource.data.userId) && isOwner(request.resource.data.userId);
+    }
+
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
