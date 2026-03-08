@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:life_log/features/goals/views/goals_view.dart';
 import 'package:life_log/features/achievements/views/achievements_view.dart';
-import 'package:life_log/features/analytics/views/analytics_view.dart';
 import 'package:life_log/features/calendar/views/calendar_view.dart';
 import 'package:life_log/features/analytics/views/yearly_summary_view.dart';
 import 'package:provider/provider.dart';
@@ -21,15 +20,6 @@ class MoreOptionsView extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
-          _buildMenuTile(
-            context,
-            'Progress Analytics',
-            'View your study time, progress, and app usage',
-            Icons.analytics_rounded,
-            Colors.blue,
-            () => Navigator.push(context, MaterialPageRoute(builder: (_) => const AnalyticsView())),
-          ),
-          const SizedBox(height: 12),
           _buildMenuTile(
             context,
             'Goals',
@@ -68,12 +58,7 @@ class MoreOptionsView extends StatelessWidget {
           const SizedBox(height: 24),
           const Divider(),
           const SizedBox(height: 12),
-          ListTile(
-            leading: const Icon(Icons.settings_rounded, color: Colors.grey),
-            title: const Text('Settings'),
-            onTap: () {},
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          ),
+
           ListTile(
             leading: const Icon(Icons.logout_rounded, color: Colors.redAccent),
             title: const Text('Logout', style: TextStyle(color: Colors.redAccent)),

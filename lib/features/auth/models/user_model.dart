@@ -2,12 +2,14 @@ class UserModel {
   final String id;
   final String name;
   final String email;
+  final String? profileImageUrl;
   final DateTime createdAt;
 
   UserModel({
     required this.id,
     required this.name,
     required this.email,
+    this.profileImageUrl,
     required this.createdAt,
   });
 
@@ -16,6 +18,7 @@ class UserModel {
       'id': id,
       'name': name,
       'email': email,
+      'profileImageUrl': profileImageUrl,
       'createdAt': createdAt.toIso8601String(),
     };
   }
@@ -25,6 +28,7 @@ class UserModel {
       id: id,
       name: map['name'] ?? '',
       email: map['email'] ?? '',
+      profileImageUrl: map['profileImageUrl'],
       createdAt: map['createdAt'] != null
           ? DateTime.parse(map['createdAt'])
           : DateTime.now(),
@@ -35,12 +39,14 @@ class UserModel {
     String? id,
     String? name,
     String? email,
+    String? profileImageUrl,
     DateTime? createdAt,
   }) {
     return UserModel(
       id: id ?? this.id,
       name: name ?? this.name,
       email: email ?? this.email,
+      profileImageUrl: profileImageUrl ?? this.profileImageUrl,
       createdAt: createdAt ?? this.createdAt,
     );
   }

@@ -65,16 +65,24 @@ class _RegisterViewState extends State<RegisterView> {
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              Icon(
+                Icons.spa_rounded,
+                size: 80,
+                color: theme.primaryColor,
+              ),
+              const SizedBox(height: 24),
               Text(
-                'Create Account 🚀',
+                'Create Account',
                 style: theme.textTheme.displayMedium?.copyWith(fontSize: 32),
+                textAlign: TextAlign.center,
               ),
               const SizedBox(height: 8),
               Text(
                 'Start planning your year ahead.',
                 style: theme.textTheme.bodyMedium?.copyWith(fontSize: 16),
+                textAlign: TextAlign.center,
               ),
               const SizedBox(height: 48),
 

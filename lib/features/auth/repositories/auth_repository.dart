@@ -71,6 +71,17 @@ class AuthRepository {
     return credential;
   }
 
+  Future<void> updateUserProfile(String userId, {String? name, String? profileImageUrl}) async {
+    final Map<String, dynamic> updates = {};
+    if (name != null) updates['name'] = name;
+    if (profileImageUrl != null) updates['profileImageUrl'] = profileImageUrl;
+    
+    if (updates.isNotEmpty) {
+      debugPrint('📝 Updating user profile in Firestore: $updates');
+      await _firestore.collection('users').doc(userId).update(updates);
+    }
+  }
+
   Future<void> signOut() async {
     await _auth.signOut();
   }

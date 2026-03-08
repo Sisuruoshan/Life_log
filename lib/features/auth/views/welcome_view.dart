@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:life_log/features/auth/views/login_view.dart';
-import 'package:life_log/features/auth/views/register_view.dart';
 
 class WelcomeView extends StatelessWidget {
   const WelcomeView({super.key});
@@ -18,11 +17,7 @@ class WelcomeView extends StatelessWidget {
             children: [
               const Spacer(),
               // Placeholder for Logo
-              Icon(
-                Icons.spa_rounded,
-                size: 100,
-                color: theme.primaryColor,
-              ),
+              Icon(Icons.spa_rounded, size: 100, color: theme.primaryColor),
               const SizedBox(height: 32),
               Text(
                 'Welcome to LifeLog',
@@ -45,27 +40,7 @@ class WelcomeView extends StatelessWidget {
                       MaterialPageRoute(builder: (_) => const LoginView()),
                     );
                   },
-                  child: const Text('Get Started (Login)'),
-                ),
-              ),
-              const SizedBox(height: 16),
-              SizedBox(
-                width: double.infinity,
-                child: OutlinedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => const RegisterView()),
-                    );
-                  },
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: theme.primaryColor,
-                    side: BorderSide(color: theme.primaryColor, width: 2),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    textStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
-                  ),
-                  child: const Text('Create an Account'),
+                  child: const Text('Get Started'),
                 ),
               ),
             ],

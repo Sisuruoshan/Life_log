@@ -155,6 +155,34 @@ class AuthViewModel extends ChangeNotifier {
     }
   }
 
+  Future<void> updateProfile({String? name, String? profileImageUrl}) async {
+    if (_user == null || _userModel == null) return;
+    
+    try {
+      _isLoading = true;
+      notifyListeners();
+      
+      await _authRepository.updateUserProfile(
+        _user!.uid,
+        name: name,
+        profileImageUrl: profileImageUrl,
+      );
+      
+      _userModel = _userModel!.copyWith(
+        name: name,
+        profileImageUrl: profileImageUrl,
+      );
+      
+      _isLoading = false;
+      notifyListeners();
+    } catch (e) {
+      debugPrint('❌ Error updating profile: $e');
+      _isLoading = false;
+      notifyListeners();
+      rethrow;
+    }
+  }
+
   Future<void> signOut() async {
     await _authRepository.signOut();
   }

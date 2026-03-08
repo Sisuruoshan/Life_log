@@ -1,11 +1,78 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:life_log/features/auth/viewmodels/auth_viewmodel.dart';
+import 'package:life_log/features/achievements/viewmodels/achievement_viewmodel.dart';
+import 'package:life_log/features/books/viewmodels/book_viewmodel.dart';
+import 'package:life_log/features/movies/viewmodels/movie_viewmodel.dart';
+import 'package:life_log/features/tasks/viewmodels/task_viewmodel.dart';
 
-class YearlySummaryView extends StatelessWidget {
+class YearlySummaryView extends StatefulWidget {
   const YearlySummaryView({super.key});
+
+  @override
+  State<YearlySummaryView> createState() => _YearlySummaryViewState();
+}
+
+class _YearlySummaryViewState extends State<YearlySummaryView> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final user = context.read<AuthViewModel>().user;
+      if (user != null) {
+        context.read<AchievementViewModel>().loadAchievements(user.uid);
+        context.read<BookViewModel>().loadBooks(user.uid);
+        context.read<MovieViewModel>().loadMovies(user.uid);
+        context.read<TaskViewModel>().loadTasks(user.uid);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    
+    // Get data from ViewModels
+    final achievementVM = context.watch<AchievementViewModel>();
+    final bookVM = context.watch<BookViewModel>();
+    final movieVM = context.watch<MovieViewModel>();
+    final taskVM = context.watch<TaskViewModel>();
+    
+    // Calculate stats
+    final totalAchievements = achievementVM.achievements.length;
+    final totalBooks = bookVM.books.length;
+    final completedBooks = bookVM.books.where((b) => b.status == 'Completed').length;
+    final totalMovies = movieVM.movies.length;
+    final watchedMovies = movieVM.movies.where((m) => m.isWatched).length;
+    
+    // Calculate active days (days with completed tasks or activities in current year)
+    final now = DateTime.now();
+    final currentYear = now.year;
+    final activeDates = <DateTime>{};
+    
+    for (var task in taskVM.tasks) {
+      if (task.createdAt.year == currentYear) {
+        activeDates.add(DateTime(task.createdAt.year, task.createdAt.month, task.createdAt.day));
+      }
+    }
+    for (var book in bookVM.books) {
+      if (book.createdAt.year == currentYear) {
+        activeDates.add(DateTime(book.createdAt.year, book.createdAt.month, book.createdAt.day));
+      }
+    }
+    for (var movie in movieVM.movies) {
+      if (movie.createdAt.year == currentYear) {
+        activeDates.add(DateTime(movie.createdAt.year, movie.createdAt.month, movie.createdAt.day));
+      }
+    }
+    for (var achievement in achievementVM.achievements) {
+      final unlockedAt = achievement.unlockedAt;
+      if (unlockedAt != null && unlockedAt.year == currentYear) {
+        activeDates.add(DateTime(unlockedAt.year, unlockedAt.month, unlockedAt.day));
+      }
+    }
+    
+    final activeDaysCount = activeDates.length;
     
     return Scaffold(
       appBar: AppBar(
@@ -56,42 +123,11 @@ class YearlySummaryView extends StatelessWidget {
                 childAspectRatio: 1.2,
               ),
               children: [
-                _buildStatCard(context, 'Achievements', '15', Icons.emoji_events_rounded, Colors.amber),
-                _buildStatCard(context, 'Active Days', '302', Icons.local_fire_department_rounded, Colors.orange),
-                _buildStatCard(context, 'Books Read', '24/30', Icons.menu_book_rounded, Colors.blue),
-                _buildStatCard(context, 'Movies', '50', Icons.movie_creation_rounded, Colors.purple),
+                _buildStatCard(context, 'Achievements', '$totalAchievements', Icons.emoji_events_rounded, Colors.amber),
+                _buildStatCard(context, 'Active Days', '$activeDaysCount', Icons.local_fire_department_rounded, Colors.orange),
+                _buildStatCard(context, 'Books Read', '$completedBooks/$totalBooks', Icons.menu_book_rounded, Colors.blue),
+                _buildStatCard(context, 'Movies Watched', '$watchedMovies/$totalMovies', Icons.movie_creation_rounded, Colors.purple),
               ],
-            ),
-            const SizedBox(height: 32),
-            
-            Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: theme.cardTheme.color,
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: Colors.grey.withOpacity(0.1)),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Academic Progress', style: theme.textTheme.titleLarge),
-                      const SizedBox(height: 4),
-                      Text('GPA or Grade Equivalent', style: theme.textTheme.bodyMedium),
-                    ],
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: Colors.green.withOpacity(0.1),
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Text('A-', style: TextStyle(color: Colors.green, fontSize: 24, fontWeight: FontWeight.bold)),
-                  ),
-                ],
-              ),
             ),
             const SizedBox(height: 40),
           ],

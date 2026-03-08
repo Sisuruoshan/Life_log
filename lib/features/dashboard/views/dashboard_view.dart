@@ -37,13 +37,16 @@ class DashboardView extends StatelessWidget {
       appBar: AppBar(
         title: const Text('LifeLog Dashboard'),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.account_circle, size: 30),
-            onPressed: () {
-              // Null for now
-            },
+          Container(
+            width: 36,
+            height: 36,
+            decoration: BoxDecoration(
+              color: theme.primaryColor.withValues(alpha: 0.1),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(Icons.spa_rounded, size: 22, color: theme.primaryColor),
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: 16),
         ],
       ),
       body: SafeArea(
